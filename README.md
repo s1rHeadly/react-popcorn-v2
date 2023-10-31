@@ -19,7 +19,7 @@ In the project directory, you can run:
 - otherwise render the movies component
 
 - when a user clicks on a movie, it should populate the list on the right hand side
-- if the movie already exists in this list we should present a message or some sort
+- save these 'watched movies' to localstorage
 - 
 
 
