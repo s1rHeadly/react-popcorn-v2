@@ -28,3 +28,14 @@ In the project directory, you can run:
 - get the value of the input field
 - create the fetch request when more that 3 characters are entered - avoid race conditioning!
 - 
+
+
+## Notes
+- when using state, try to have dummy data first before making things dynamic so we know the props are correct where needed
+- Use nullish coelescance to avoid empty values
+- Use Condtional rendering
+- Use UseEffect as an event Listener
+- Try to use the children prop to avoid lots of prop drilling
+- Use prevState where needed
+- Try to make components are re-usable as possible by assigning props throughout the component AND using state in a parent component to connect the two
+
