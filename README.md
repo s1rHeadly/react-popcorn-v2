@@ -39,3 +39,8 @@ In the project directory, you can run:
 - Use prevState where needed
 - Try to make components are re-usable as possible by assigning props throughout the component AND using state in a parent component to connect the two
 
+
+
+## Issues Common or something extra
+- .env files DO NOT commit to repo
+- See here for a how to: https://algerwrites.medium.com/how-to-remove-env-from-git-commit-history-1d594917b376
