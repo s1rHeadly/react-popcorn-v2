@@ -2,6 +2,7 @@
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
+  const APIKEY = `bb4e2f84`; // .env will not print to the console if we try to do it or inside a custom hook
 
 
-  export {average}
+  export {average, APIKEY}

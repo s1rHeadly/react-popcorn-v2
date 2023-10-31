@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-
-import {tempMovieData, tempWatchedData } from './utils/data.js';
+import { APIKEY } from "./utils/helpers";
+ import {tempWatchedData } from './utils/data.js';
 
 
 import Navbar from './navbar/Navbar';
@@ -14,13 +14,16 @@ import WatchedList from './watched/WatchedList';
 import Box from './global/Box';
 import Error from "./global/Error";
 import Loader from './global/Loader';
+import MovieDetails from "./watched/MovieDetails.js";
 
 
 
-const APIKEY = `bb4e2f84`; // .env will not print to the console if we try to do it or inside a custom hook
 
 
 export default function App() {
+
+  // state
+   //============
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -29,10 +32,42 @@ export default function App() {
   const [query, setQuery] = useState("");
 
 
+  const [selectedMovieId, setSelectedMovieId] = useState(null)
 
+
+
+
+  // functions
+   //============
+  const getMovieId = (id) => {
+    setSelectedMovieId((prevState) => prevState !== id ? id : null)
+  }
+
+
+  const closeMovieDetails = () => {
+      setSelectedMovieId(null)
+  }
+
+
+  const onAddWatchedMovie = (movie) => {
+      setWatched((prevState) => {
+        return[
+          ...prevState,
+          movie
+        ]
+      })
+  }
+
+
+
+  // useEffects
+  //============
+
+
+  // fFetch Mmovies on Search Query
   useEffect(() => {
 
-    const controller = new AbortController();
+    const controller = new AbortController(); // this is for racing condtion handling
     
     const getMovieData = async() => {
     
@@ -61,7 +96,6 @@ export default function App() {
         setLoading(false)
       }
 
-    
 
     } catch (error) {
       if (error.name !== "AbortError") {
@@ -73,11 +107,11 @@ export default function App() {
       setLoading(false)
     }
 
-    if(query.length < 3){
-      setMovies([]);
-      setError('');
-      return;
-    }
+      if(query.length < 3){
+        setMovies([]);
+        setError('');
+        return;
+      }
 
   
     } // close function getData
@@ -85,7 +119,7 @@ export default function App() {
 
   getMovieData(); //call getData
 
-  // cleanup function
+  // cleanup function for race conditioning
   return(() => {
     controller.abort();
   })
@@ -100,7 +134,7 @@ export default function App() {
       value={query}
       onChange={(e) => setQuery(e.target.value)}
       placeholder="Search for a movie title"/>
-      
+
       <NavResults movies={movies}/>
     </Navbar>
 
@@ -108,12 +142,17 @@ export default function App() {
             <Box>
               {loading && <Loader message="Loading"/>}
               {!loading && error && <Error message={error}/>}
-              {!error && !loading && <MoviesList movies={movies}/>}
+              {!error && !loading && <MoviesList movies={movies} onSelectedId={getMovieId}/>}
             </Box>
 
             <Box>
-            <Summary watched={watched}/>
-            <WatchedList watched={watched}/>
+              {selectedMovieId ? (<MovieDetails onCloseMovie={closeMovieDetails} selectedMovieId={selectedMovieId}/> ) : (
+              <>
+              <Summary watched={watched}/>
+              <WatchedList watched={watched}/>
+              </>
+            ) }
+           
             </Box>
       </Main>
     </>
