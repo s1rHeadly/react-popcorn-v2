@@ -28,7 +28,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [watched, setWatched] = useState([]);
   const [query, setQuery] = useState("");
 
 
@@ -49,14 +49,17 @@ export default function App() {
   }
 
 
-  const onAddWatchedMovie = (movie) => {
-      setWatched((prevState) => {
-        return[
-          ...prevState,
-          movie
-        ]
-      })
+  const addWatchedMovie = (movie) => {
+    console.log(movie)
+      // setWatched((prevState) => {
+      //   return[
+      //     ...prevState,
+      //     movie
+      //   ]
+      // })
   }
+
+
 
 
 
@@ -91,8 +94,18 @@ export default function App() {
       }
 
       const results = data.Search;
+
       if(results){
-        setMovies(results)
+        // update the keys for each item
+        const udpatedResults = results.map(item => ({
+          title: item.Title,
+          poster: item.Poster,
+          year: item.Year,
+          id: item.imdbID,
+        }));
+
+       
+        setMovies(udpatedResults)
         setLoading(false)
       }
 
@@ -117,7 +130,7 @@ export default function App() {
     } // close function getData
 
 
-  getMovieData(); //call getData
+    getMovieData(); //call getData
 
   // cleanup function for race conditioning
   return(() => {
@@ -146,7 +159,7 @@ export default function App() {
             </Box>
 
             <Box>
-              {selectedMovieId ? (<MovieDetails onCloseMovie={closeMovieDetails} selectedMovieId={selectedMovieId}/> ) : (
+              {selectedMovieId ? (<MovieDetails onCloseMovie={closeMovieDetails} selectedMovieId={selectedMovieId} onAddWatchedMovie={addWatchedMovie}/> ) : (
               <>
               <Summary watched={watched}/>
               <WatchedList watched={watched}/>
