@@ -2,16 +2,16 @@ import React from 'react'
 
 const WatchedMovie = ({movie}) => {
 
+  const {poster, title, imdbRating, runtime, imdbID: id} = movie; 
 
   return (
-    <li>
-    <img src={movie.poster} alt={`${movie.title} poster`} />
-    <p>test</p>
-    <h3>{movie.Title}</h3>
+    <li id={id}>
+    <img src={poster} alt={`${title} poster`} />
+    <h3>{title}</h3>
     <div>
       <p>
         <span>⭐️</span>
-        <span>{movie.imdbRating}</span>
+        <span>{imdbRating}</span>
       </p>
       <p>
         <span>🌟</span>
@@ -19,7 +19,7 @@ const WatchedMovie = ({movie}) => {
       </p>
       <p>
         <span>⏳</span>
-        <span>{movie.runtime} min</span>
+        <span>{runtime}</span>
       </p>
     </div>
     <button className="btn-delete">ｘ</button>

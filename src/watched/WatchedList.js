@@ -6,7 +6,7 @@ const WatchedList = ({watchedMovies}) => {
   return (
     <ul className="list">
                 {watchedMovies?.map((movie) => (
-                  <WatchedMovie movie={movie} key={movie.Title}/>
+                  <WatchedMovie movie={movie} key={movie.imdbID}/>
                 ))}
               </ul>
   )

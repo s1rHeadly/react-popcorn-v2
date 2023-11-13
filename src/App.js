@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 
 import { APIKEY } from "./utils/helpers";
 
-import { v4 as uuidv4 } from 'uuid';
 
 import Navbar from './navbar/Navbar';
 import NavResults from './navbar/NavResults';
@@ -29,6 +28,7 @@ export default function App() {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState(null)
+  
   const [watchedMovies, setWatchedMovies] = useState(function(){
       const stored = localStorage.getItem('watchedMovies');
       return JSON.parse(stored) || [];
@@ -54,10 +54,11 @@ export default function App() {
 
 
   const addWatchedMovie = (movie) => {
-    
-    
+   
+      setWatchedMovies((prevState) => (
+        [...prevState, movie]
+      ))
 
-     localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies))
 
      closeMovieDetails()
   }
@@ -68,6 +69,14 @@ export default function App() {
 
   // useEffects
   //============
+
+
+  //local Storage 
+useEffect(() => {
+  localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies))
+},[watchedMovies]);
+
+
 
 
   // fFetch Mmovies on Search Query
@@ -98,7 +107,6 @@ export default function App() {
 
       const results = data.Search;
 
-    
 
       if(results){
         // update the keys for each item
@@ -106,12 +114,13 @@ export default function App() {
           title: item.Title,
           poster: item.Poster,
           year: item.Year,
-          id: uuidv4(),
+          id: item.imdbID,
         }));
 
        
         setMovies(udpatedResults)
         setLoading(false)
+
       }
 
 

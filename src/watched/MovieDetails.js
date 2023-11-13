@@ -9,7 +9,11 @@ const MovieDetails = ({ onCloseMovie, selectedMovieId, onAddWatchedMovie }) => {
   const [movie, setMovie] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const {Title: title, Genre: genre, Poster: poster, Runtime: runtime, Plot: plot, Released: released, Actors:actors, Director: director} = movie
+
   useEffect(() => {
+
+
     const getMovieData = async () => {
       setLoading(true);
 
@@ -21,13 +25,11 @@ const MovieDetails = ({ onCloseMovie, selectedMovieId, onAddWatchedMovie }) => {
           throw new Error("Something went wrong");
         }
 
-        const data = await response.json();
-        
-        console.log(selectedMovieId)
+        const data = await response.json(); 
+         
 
         setMovie(data);
         setLoading(false);
-        //  console.log(data)
       } catch (error) {
         console.log(error);
       }
@@ -37,25 +39,23 @@ const MovieDetails = ({ onCloseMovie, selectedMovieId, onAddWatchedMovie }) => {
   }, [selectedMovieId]);
 
 
-  console.log(movie)
-
   return (
     <div className="details">
       {loading ? (
-        <Loader />
+        <Loader message="Loading"/>
       ) : (
         <>
           <header>
             <button className="btn-back" onClick={onCloseMovie}>
               &larr;
             </button>
-            <img src={movie.Poster} alt={movie.Title} />
+            <img src={poster} alt={title} />
             <div className="details-overview">
-              <h2>{movie.Title}</h2>
+              <h2>{title}</h2>
               <p>
-                {movie.Released} &bull; {movie.Runtime}
+                {released} &bull; {runtime}
               </p>
-              <p>{movie.Genre}</p>
+              <p>{genre}</p>
               <p>
                 ⭐️<span>{movie.imdbRating} IMBd Rating</span>
               </p>
@@ -73,10 +73,10 @@ const MovieDetails = ({ onCloseMovie, selectedMovieId, onAddWatchedMovie }) => {
               + Add to list
             </button>
             <p>
-              <em>{movie.Plot}</em>
+              <em>{plot}</em>
             </p>
-            <p>Actors: {movie.Actors}</p>
-            <p>Directed by: {movie.Director}</p>
+            <p>Actors: {actors}</p>
+            <p>Directed by: {director}</p>
           </section>
         </>
       )}

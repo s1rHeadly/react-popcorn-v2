@@ -2,10 +2,9 @@ import React from 'react'
 
 const Movie = ({movie, onSelectedId}) => {
   const {title, poster, id, year} = movie
-  console.log(id)
 
   return (
-    <li onClick={() => onSelectedId(id)}>
+    <li id={id} onClick={() => onSelectedId(id)}>
     <img src={poster} alt={`${title} poster`} />
     <h3>{title}</h3>
     <div>
