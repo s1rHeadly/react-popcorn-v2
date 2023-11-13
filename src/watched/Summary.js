@@ -15,19 +15,19 @@ const Summary = ({watched}) => {
                 <div>
                   <p>
                     <span>#️⃣</span>
-                    <span>{watched.length} movies</span>
+                    <span>{20} movies</span>
                   </p>
                   <p>
                     <span>⭐️</span>
-                    <span>{avgImdbRating}</span>
+                    <span>{20}</span>
                   </p>
                   <p>
                     <span>🌟</span>
-                    <span>{avgUserRating}</span>
+                    <span>{4.6}</span>
                   </p>
                   <p>
                     <span>⏳</span>
-                    <span>{avgRuntime} min</span>
+                    <span>{154} min</span>
                   </p>
                 </div>
               </div>

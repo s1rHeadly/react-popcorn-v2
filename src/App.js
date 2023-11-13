@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
 import { APIKEY } from "./utils/helpers";
- import {tempWatchedData } from './utils/data.js';
 
+import { v4 as uuidv4 } from 'uuid';
 
 import Navbar from './navbar/Navbar';
 import NavResults from './navbar/NavResults';
@@ -27,12 +27,16 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
-  const [watched, setWatched] = useState([]);
   const [query, setQuery] = useState("");
-
-
   const [selectedMovieId, setSelectedMovieId] = useState(null)
+  const [watchedMovies, setWatchedMovies] = useState(function(){
+      const stored = localStorage.getItem('watchedMovies');
+      return JSON.parse(stored) || [];
+  });
+
+
+
+
 
 
 
@@ -45,18 +49,17 @@ export default function App() {
 
 
   const closeMovieDetails = () => {
-      setSelectedMovieId(null)
+      setSelectedMovieId(null) // set the selectedID ack to null so the Summary want watch list is shown (see second box component below for the condition)
   }
 
 
   const addWatchedMovie = (movie) => {
-    console.log(movie)
-      // setWatched((prevState) => {
-      //   return[
-      //     ...prevState,
-      //     movie
-      //   ]
-      // })
+    
+    
+
+     localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies))
+
+     closeMovieDetails()
   }
 
 
@@ -95,13 +98,15 @@ export default function App() {
 
       const results = data.Search;
 
+    
+
       if(results){
         // update the keys for each item
         const udpatedResults = results.map(item => ({
           title: item.Title,
           poster: item.Poster,
           year: item.Year,
-          id: item.imdbID,
+          id: uuidv4(),
         }));
 
        
@@ -161,8 +166,8 @@ export default function App() {
             <Box>
               {selectedMovieId ? (<MovieDetails onCloseMovie={closeMovieDetails} selectedMovieId={selectedMovieId} onAddWatchedMovie={addWatchedMovie}/> ) : (
               <>
-              <Summary watched={watched}/>
-              <WatchedList watched={watched}/>
+              <Summary watchedMovies={watchedMovies}/>
+              <WatchedList watchedMovies={watchedMovies} selectedMovieId={selectedMovieId}/>
               </>
             ) }
            

@@ -2,6 +2,7 @@ import React from 'react'
 
 const Movie = ({movie, onSelectedId}) => {
   const {title, poster, id, year} = movie
+  console.log(id)
 
   return (
     <li onClick={() => onSelectedId(id)}>
