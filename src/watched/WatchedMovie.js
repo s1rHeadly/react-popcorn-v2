@@ -1,10 +1,14 @@
 import React from 'react'
 
-const WatchedMovie = ({movie}) => {
+const WatchedMovie = ({movie,onFilter}) => {
 
-  const {poster, title, imdbRating, runtime, imdbID: id} = movie; 
+  const {Title: title, imdbID: id, Poster: poster, Runtime:runtime, imdbRating} = movie
+
+
 
   return (
+<>
+<h3>{title}</h3>
     <li id={id}>
     <img src={poster} alt={`${title} poster`} />
     <h3>{title}</h3>
@@ -14,16 +18,13 @@ const WatchedMovie = ({movie}) => {
         <span>{imdbRating}</span>
       </p>
       <p>
-        <span>🌟</span>
-        <span>{movie.userRating}</span>
-      </p>
-      <p>
         <span>⏳</span>
         <span>{runtime}</span>
       </p>
     </div>
-    <button className="btn-delete">ｘ</button>
+    <button className="btn-delete" onClick={() =>onFilter(id)}>ｘ</button>
   </li>
+</>
   )
 }
 

@@ -54,13 +54,18 @@ export default function App() {
 
 
   const addWatchedMovie = (movie) => {
-   
+  
       setWatchedMovies((prevState) => (
         [...prevState, movie]
       ))
 
-
      closeMovieDetails()
+  }
+
+
+  const filteredWatched = (id) => {
+        if(!id) return;
+        setWatchedMovies((prevState) => prevState.filter((item) => item.imdbID !== id ?? item))
   }
 
 
@@ -176,7 +181,7 @@ useEffect(() => {
               {selectedMovieId ? (<MovieDetails onCloseMovie={closeMovieDetails} selectedMovieId={selectedMovieId} onAddWatchedMovie={addWatchedMovie}/> ) : (
               <>
               <Summary watchedMovies={watchedMovies}/>
-              <WatchedList watchedMovies={watchedMovies} selectedMovieId={selectedMovieId}/>
+              <WatchedList watchedMovies={watchedMovies} selectedMovieId={selectedMovieId} onFilter={filteredWatched}/>
               </>
             ) }
            
