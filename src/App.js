@@ -54,12 +54,20 @@ export default function App() {
 
 
   const addWatchedMovie = (movie) => {
-  
+
+   const addedMovieId = movie.imdbID; // get the id of the movie
+    // if the movie already exists in the watchedMovies return true or false
+   const isListed = watchedMovies.some((item) => item.imdbID === addedMovieId);
+   console.log(isListed)
+    // if it doesnt exist, then add it to the watched movies array
+   if(!isListed){
       setWatchedMovies((prevState) => (
         [...prevState, movie]
       ))
+   }
 
-     closeMovieDetails()
+   closeMovieDetails()
+
   }
 
 

@@ -5,11 +5,8 @@ const WatchedMovie = ({movie,onFilter}) => {
   const {Title: title, imdbID: id, Poster: poster, Runtime:runtime, imdbRating} = movie
 
 
-
   return (
-<>
-<h3>{title}</h3>
-    <li id={id}>
+    <li>
     <img src={poster} alt={`${title} poster`} />
     <h3>{title}</h3>
     <div>
@@ -24,7 +21,7 @@ const WatchedMovie = ({movie,onFilter}) => {
     </div>
     <button className="btn-delete" onClick={() =>onFilter(id)}>ｘ</button>
   </li>
-</>
+
   )
 }
 
