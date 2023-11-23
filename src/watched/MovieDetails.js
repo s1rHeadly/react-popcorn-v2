@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../global/Loader";
 import { APIKEY } from "../utils/helpers";
+import StarRating from "../global/stars/StarRating";
 
 
 
@@ -62,9 +63,11 @@ const MovieDetails = ({ onCloseMovie, selectedMovieId, onAddWatchedMovie }) => {
             </div>
           </header>
 
-          {/* <p>{avgRating}</p> */}
+        
 
           <section>
+
+          <StarRating />
             <button
               className="btn-add"
               onClick={() => onAddWatchedMovie(movie)}

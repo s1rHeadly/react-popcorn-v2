@@ -50,9 +50,13 @@ const StarRating = ({maxLength, defaultRating = 0}) => {
   )
 }
 
-export default StarRating
-
-
 StarRating.defaultProps = {
   maxLength: 10,
 }
+
+export default StarRating
+
+
+
+
+
