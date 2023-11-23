@@ -68,10 +68,10 @@ const MovieDetails = ({ onCloseMovie, selectedMovieId, onAddWatchedMovie }) => {
           <section>
 
           <StarRating />
+
             <button
               className="btn-add"
-              onClick={() => onAddWatchedMovie(movie)}
-            >
+              onClick={() => onAddWatchedMovie(movie)}>
               + Add to list
             </button>
             <p>
