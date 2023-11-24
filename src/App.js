@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
 
-import { APIKEY } from "./utils/helpers";
-
-
 import Navbar from './navbar/Navbar';
 import NavResults from './navbar/NavResults';
 import SearchInput from './navbar/SearchInput';
@@ -26,8 +23,8 @@ import useFetchMovies from "./hooks/useFetchMovies.js";
 
 export default function App() {
 
-  // state
-   //============
+  // state (this is now inside a custom hook)
+   //==========================================
   // const [movies, setMovies] = useState([]);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
