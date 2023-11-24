@@ -16,6 +16,7 @@ import MovieDetails from "./watched/MovieDetails.js";
 
 // custom hook files
 import useFetchMovies from "./hooks/useFetchMovies.js";
+import useLocalStorageState from "./hooks/useLocalStorageState.js";
 
 
 
@@ -32,23 +33,20 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState(null)
   
-  const [watchedMovies, setWatchedMovies] = useState(function(){
-      const stored = localStorage.getItem('watchedMovies');
-      return JSON.parse(stored) || [];
-  });
+
+
+  // calling the custom hook for fetch 
+  const {movies, loading, error} = useFetchMovies(query) // Pass in the query State as a value. Remember: here we are getting items from an object hense {}!
+
+  //calling the custom hook for localStorageState
+  const [watchedMovies, setWatchedMovies] = useLocalStorageState('moviesWatched') // Remember: here we are getting items from an array as its state !
+  // inside the array we can name this anything however we have used this naming for props in other parts of the app. 
+  // moviesWatched can be called watchedmovies or something else. It just means its the key we are naming in local storage
 
 
 
 
-// calling the custom hook for fetch 
-const{movies, loading, error} = useFetchMovies(query)
-
-
-
-
-
-
-  // functions
+  // functions => NOTE Always use the function keyword when creating functions of this kind. IF we are using custom hook, then using arrow functions will break it we are adding them into the hook param
    //============
 
   function getMovieId(id){
@@ -79,21 +77,6 @@ function filteredWatched(id){
         if(!id) return;
         setWatchedMovies((prevState) => prevState.filter((item) => item.imdbID !== id ?? item))
   }
-
-
-
-
-
-  // useEffects
-  //============
-
-
-  //local Storage 
-useEffect(() => {
-  localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies))
-},[watchedMovies]);
-
-
 
 
 
