@@ -17,15 +17,21 @@ import MovieDetails from "./watched/MovieDetails.js";
 
 
 
+// custom hook files
+import useFetchMovies from "./hooks/useFetchMovies.js";
+
+
+
 
 
 export default function App() {
 
   // state
    //============
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [movies, setMovies] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+
   const [query, setQuery] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState(null)
   
@@ -37,42 +43,42 @@ export default function App() {
 
 
 
+// calling the custom hook
+const{movies, loading, error} = useFetchMovies(query)
+
+
 
 
 
 
   // functions
    //============
-  const getMovieId = (id) => {
+
+  function getMovieId(id){
     setSelectedMovieId((prevState) => prevState !== id ? id : null)
   }
 
 
-  const closeMovieDetails = () => {
+  function closeMovieDetails(){
       setSelectedMovieId(null) // set the selectedID ack to null so the Summary want watch list is shown (see second box component below for the condition)
   }
 
 
-  const addWatchedMovie = (movie) => {
-
+  function addWatchedMovie(movie){
    const addedMovieId = movie.imdbID; // get the id of the movie
     // if the movie already exists in the watchedMovies return true or false
    const isListed = watchedMovies.some((item) => item.imdbID === addedMovieId);
-   //console.log(isListed)
-   
     // if it doesnt exist, then add it to the watched movies array
    if(!isListed){
       setWatchedMovies((prevState) => (
         [...prevState, movie]
       ))
    }
-
    closeMovieDetails()
-
   }
 
 
-  const filteredWatched = (id) => {
+function filteredWatched(id){
         if(!id) return;
         setWatchedMovies((prevState) => prevState.filter((item) => item.imdbID !== id ?? item))
   }
@@ -92,79 +98,6 @@ useEffect(() => {
 
 
 
-
-  // fFetch Mmovies on Search Query
-  useEffect(() => {
-
-    const controller = new AbortController(); // this is for racing condtion handling
-    
-    const getMovieData = async() => {
-    
-      setLoading(true)
-
-    try {
-    
-      const response = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${APIKEY}`, {
-        signal: controller.signal,
-      });
-
-      if(!response.ok){
-       throw new Error('Something went wrong')
-      }
-
-      setError(null)
-      const data = await response.json();
-
-      if(Response === 'False'){
-        throw new Error(data.Error)
-      }
-
-      const results = data.Search;
-
-
-      if(results){
-        // update the keys for each item
-        const udpatedResults = results.map(item => ({
-          title: item.Title,
-          poster: item.Poster,
-          year: item.Year,
-          id: item.imdbID,
-        }));
-
-       
-        setMovies(udpatedResults)
-        setLoading(false)
-
-      }
-
-
-    } catch (error) {
-      if (error.name !== "AbortError") {
-        console.log(error.message);
-        setError(error.message);
-      }
-
-    } finally{
-      setLoading(false)
-    }
-
-      if(query.length < 3){
-        setMovies([]);
-        setError('');
-        return;
-      }
-
-  
-    } // close function getData
-
-
-    getMovieData(); //call getData
-
-  // cleanup function for race conditioning
-  return(() => {
-    controller.abort();
-  })
-  }, [query]);
 
 
 
