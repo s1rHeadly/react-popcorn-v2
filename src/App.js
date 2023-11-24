@@ -40,7 +40,7 @@ export default function App() {
 
 
 
-// calling the custom hook
+// calling the custom hook for fetch 
 const{movies, loading, error} = useFetchMovies(query)
 
 
